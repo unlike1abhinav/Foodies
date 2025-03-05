@@ -5,16 +5,24 @@ import Image from "next/image";
 import { getMeal } from "@/lib/meals";
 import { notFound } from "next/navigation";
 
-export async function generateMealsMetaData( {params}){
-  const meal = getMeal(params.slug);
-  return{
-    title : meal.title,
-    description : meal.summary
+export async function generateMealsMetaData({ params }) {
+  const meal = await getMeal(params.slug);
+
+  if (!meal) {
+    return {
+      title: "Meal Not Found",
+      description: "The requested meal does not exist.",
+    };
   }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
 }
 
-const MealExtended = ({params}) => {
-  const meal = getMeal(params.slug);
+const MealExtended = async ({params}) => {
+  const meal = await getMeal(params.slug);
   if(!meal){
     notFound()
   }
