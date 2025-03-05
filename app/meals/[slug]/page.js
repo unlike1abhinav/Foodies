@@ -5,6 +5,14 @@ import Image from "next/image";
 import { getMeal } from "@/lib/meals";
 import { notFound } from "next/navigation";
 
+export async function generateMealsMetaData( {params}){
+  const meal = getMeal(params.slug);
+  return{
+    title : meal.title,
+    description : meal.summary
+  }
+}
+
 const MealExtended = ({params}) => {
   const meal = getMeal(params.slug);
   if(!meal){
